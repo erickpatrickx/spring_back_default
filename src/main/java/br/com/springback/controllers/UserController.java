@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
 	@GetMapping("/users")
-	@Secured({"ROLE_ADMIN"})
+	@Secured("ROLE_ADMIN")
 	public String getUsers() {
 		return "{\"users\":[{\"name\":\"Lucas\", \"country\":\"Brazil\"}," +
 		           "{\"name\":\"Jackie\",\"country\":\"China\"}]}";
