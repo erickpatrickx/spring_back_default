@@ -20,7 +20,7 @@ public class Email {
 	    @Getter
 	    private Long id;
 	
-	    @Column(nullable = false, unique = true)
+	    @Column(nullable = false)
 	    @NotNull
 	    @Getter
 	    @Setter

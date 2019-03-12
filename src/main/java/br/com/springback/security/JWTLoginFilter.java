@@ -19,7 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
-	protected JWTLoginFilter(String url, AuthenticationManager authManager) {
+	public JWTLoginFilter(String url, AuthenticationManager authManager) {
 		super(new AntPathRequestMatcher(url));
 		setAuthenticationManager(authManager);
 	}
@@ -27,10 +27,9 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException, IOException, ServletException {
-		
-		AccountCredentials credentials = new ObjectMapper()
+		AccountCredentials
+			credentials= new ObjectMapper()
 				.readValue(request.getInputStream(), AccountCredentials.class);
-		
 		return getAuthenticationManager().authenticate(
 				new UsernamePasswordAuthenticationToken(
 						credentials.getUsername(), 
@@ -50,5 +49,6 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 		TokenAuthenticationService.addAuthentication(response, auth.getName(),auth.getAuthorities());
 	}
 
+	
 
 }

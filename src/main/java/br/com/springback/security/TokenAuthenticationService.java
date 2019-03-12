@@ -1,5 +1,7 @@
 package br.com.springback.security;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -25,7 +27,7 @@ public class TokenAuthenticationService {
 	static final String TOKEN_PREFIX = "Bearer";
 	static final String HEADER_STRING = "Authorization";
 	
-	static void addAuthentication(HttpServletResponse response, String username, Collection<? extends GrantedAuthority> collection) {
+	static void addAuthentication(HttpServletResponse response, String username, Collection<? extends GrantedAuthority> collection) throws IOException {
 		
 		   final String authorities = collection.stream()
 	                .map(GrantedAuthority::getAuthority)
@@ -37,12 +39,21 @@ public class TokenAuthenticationService {
 				.signWith(SignatureAlgorithm.HS512, SECRET)
 				.compact();
 		
+		
 		response.addHeader(HEADER_STRING, TOKEN_PREFIX + " " + JWT);
+		
+		if(JWT != null) {
+		response.setContentType("application/json");
+		PrintWriter out = response.getWriter();
+		out.print(("{\"user\":{     \"token\": \""+TOKEN_PREFIX + " "+JWT)+"\"}}");
+		out.flush();
+		}
 	}
 	
 	static Authentication getAuthentication(HttpServletRequest request) {
 		String token = request.getHeader(HEADER_STRING);
 		if (token != null) {
+			token = token.replace("Token","");
 			Claims claims = Jwts.parser()
 					.setSigningKey(SECRET)
 					.parseClaimsJws(token.replace(TOKEN_PREFIX, ""))

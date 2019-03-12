@@ -23,13 +23,13 @@ public class Telefone {
 	    @Getter
 	    private Long id;
 	
-	    @Column(nullable = false, unique = true)
+	    @Column(nullable = false)
 	    @NotNull
 	    @Getter
 	    @Setter
 	    private String numero;
 	
-	    @Column(nullable = false, unique = true)
+	    @Column(nullable = false)
 	    @NotNull
 	    @Enumerated(EnumType.ORDINAL)
 	    @Getter

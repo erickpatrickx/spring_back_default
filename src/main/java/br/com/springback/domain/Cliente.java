@@ -1,6 +1,6 @@
 package br.com.springback.domain;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -36,12 +36,12 @@ public class Cliente extends EntidadeBase {
 	    @Getter
 	    @Setter
 	    @NotEmpty
-	    private List<Email> emails;
+	    private Set<Email> emails;
 	    
 	    @OneToMany(mappedBy = "cliente", targetEntity = Telefone.class,cascade = CascadeType.ALL)
 	    @Getter
 	    @Setter
-	    private List<Telefone> telefones;
+	    private Set<Telefone> telefones;
 	    
 		@Embedded
 	    @NotNull
