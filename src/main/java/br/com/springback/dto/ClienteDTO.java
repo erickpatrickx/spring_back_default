@@ -1,5 +1,7 @@
 package br.com.springback.dto;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.validation.constraints.NotEmpty;
@@ -8,6 +10,9 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonRootName;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import br.com.springback.utils.ValidaCPF;
 import br.com.springback.utils.ValidaEmail;
@@ -15,6 +20,9 @@ import br.com.springback.utils.ValidaTelefone;
 import lombok.Getter;
 import lombok.Setter;
 
+
+@JsonTypeName("cliente")                                                                                         
+@JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT ,use = JsonTypeInfo.Id.NAME)
 public class ClienteDTO {
 
 	
@@ -32,7 +40,6 @@ public class ClienteDTO {
 	@Getter
 	private String cpf;
     
-
 	@Getter
 	@Setter
 	private EnderecoDTO endereco;
@@ -53,27 +60,27 @@ public class ClienteDTO {
 	}
     
     @JsonIgnore
-	String errors;
+	List<String> errors;
 
     @JsonIgnore
-	public String validate() {
-    	errors ="";
+	public List<String> validate() {
+    	errors = new ArrayList<String>();
 		if(!ValidaCPF.isCPF(cpf)) {
-			errors = "CPF inválido";
+			errors.add("CPF inválido");
 		}
 		emails.forEach(e -> 
 		{
 		 if(!ValidaEmail.isEmail(e.getEmail()))
-					errors= "E-mail inválido";
+			errors.add("E-mail inválido");
+
 		});
 			
 		telefones.forEach(e -> 
 		{
 			if(!ValidaTelefone.isTelefone(e.getNumero()))
-					errors= "Telefone inválido";
+				errors.add("Telefone inválido");
+
 		});	
-		
-		
 		return errors;
 	}
 

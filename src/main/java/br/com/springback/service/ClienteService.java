@@ -31,9 +31,9 @@ public class ClienteService {
     private ModelMapper modelMapper;
 	
 
-	public ClienteDTO save(ClienteDTO dto) {
-		String errors = dto.validate();
-		if(!errors.isEmpty()) {
+	public ClienteDTO save(ClienteDTO dto){
+		List errors = dto.validate();
+		if(errors != null) {
 			throw new BusinessException(errors);
 		}
 		Cliente cliente = modelMapper.map(dto, Cliente.class);
@@ -46,8 +46,8 @@ public class ClienteService {
 	
 	
 	public ClienteDTO update(ClienteDTO dto) {
-		String errors = dto.validate();
-		if(!errors.isEmpty()) {
+		List errors = dto.validate();
+		if(errors != null) {
 			throw new BusinessException(errors);
 		}
 		Cliente cliente =repository.findById(dto.getId()).get();

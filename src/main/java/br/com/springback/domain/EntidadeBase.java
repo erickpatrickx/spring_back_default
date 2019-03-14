@@ -30,10 +30,10 @@ public abstract class EntidadeBase {
     private Long id;
 
     @LastModifiedBy
-    private String modifyUser;
+    private String alteradoPor;
 
     @LastModifiedDate
-    private LocalDateTime modifyDate;
+    private LocalDateTime alteradoEm;
     
     @Override
     public boolean equals(Object obj) {

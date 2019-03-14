@@ -33,7 +33,7 @@ public class ClienteController {
 	 }
 	
     
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<ClienteDTO>> getAll() {
         return ResponseEntity.ok().body(clienteService.findAll());
     }
