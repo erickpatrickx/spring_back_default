@@ -51,11 +51,9 @@ public class ClienteService {
 			throw new BusinessException(errors);
 		}
 		Cliente cliente =repository.findById(dto.getId()).get();
-		copyListsUpdateEmail(dto.getEmails(), cliente.getEmails());
-		copyListsUpdateTelefone(dto.getTelefones(), cliente.getTelefones());
+		modelMapper.map(dto,cliente);
 		cliente.getEmails().forEach(emails -> emails.setCliente(cliente));
 		cliente.getTelefones().forEach(emails -> emails.setCliente(cliente));
-	   
 		repository.save(cliente);
 	    modelMapper.map(cliente, dto);
 	    return dto;
