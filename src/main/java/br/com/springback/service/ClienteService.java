@@ -33,7 +33,7 @@ public class ClienteService {
 
 	public ClienteDTO save(ClienteDTO dto){
 		List errors = dto.validate();
-		if(errors != null) {
+		if(errors != null && errors.size() > 0) {
 			throw new BusinessException(errors);
 		}
 		Cliente cliente = modelMapper.map(dto, Cliente.class);
@@ -47,7 +47,7 @@ public class ClienteService {
 	
 	public ClienteDTO update(ClienteDTO dto) {
 		List errors = dto.validate();
-		if(errors != null) {
+		if(errors != null && errors.size() > 0) {
 			throw new BusinessException(errors);
 		}
 		Cliente cliente =repository.findById(dto.getId()).get();
@@ -68,6 +68,18 @@ public class ClienteService {
         .collect(Collectors.toList());
 		return dtos;
 	}
+
+	
+	public ClienteDTO findById(Long id) {
+		Optional<Cliente> entity = repository.findById(id);
+		if(entity.isPresent()) {
+			return toDTO(entity.get());
+		}
+		return null;
+	}
+
+	
+	
 
     public ClienteDTO toDTO(Cliente cliente) {
         if (cliente == null) {
@@ -99,10 +111,6 @@ public class ClienteService {
 	
 	
 	
-
-
-
-    
 	public void delete(Long id) {
 		Optional<Cliente> cliente = repository.findById(id);
 		repository.delete(cliente.get());

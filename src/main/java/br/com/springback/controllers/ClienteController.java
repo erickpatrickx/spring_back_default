@@ -37,6 +37,13 @@ public class ClienteController {
     public ResponseEntity<List<ClienteDTO>> getAll() {
         return ResponseEntity.ok().body(clienteService.findAll());
     }
+    
+    @GetMapping("/{id}")
+    public ResponseEntity<ClienteDTO> getCliente(@PathVariable Long id) {
+        return ResponseEntity.ok().body(clienteService.findById(id));
+    }
+    
+    
 	@PostMapping("/save")
 	public ResponseEntity<ClienteDTO> salvar(@Validated @RequestBody ClienteDTO dto) {
 		 if (dto.getId() != null) {
